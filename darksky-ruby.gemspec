@@ -4,7 +4,7 @@ require 'darksky-ruby'
 
 Gem::Specification.new do |s|
   s.name          = 'darksky-ruby'
-  s.version       = '1.0.0'
+  s.version       = '1.0.1'
   s.authors       = ['Ken J.']
   s.email         = ['kenjij@gmail.com']
   s.summary       = %q{Pure simple Ruby based Dark Sky API gem}
