@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+require 'darksky-ruby/optimist'
+require 'darksky-ruby'
+
+
+opts = Optimist::options do
+  banner "darksky [options] <LAT,LON>"
+  opt :key, 'API secret key', type: :string
+  opt :loc, 'Location (latitude,longtitude)', type: :string
+  opt :log, 'Log file', type: :string
+  opt :time, 'Timestamp for Time Machine request', type: :string
+  opt :verbose, 'Verbose mode'
+end
+
+if opts[:log_given]
+  Neko.logger = Logger.new(opts[:log])
+  Neko.logger.level = Logger::WARN
+end
+
+if opts[:verbose]
+  Neko.logger = Logger.new(STDOUT) unless opts[:log_given]
+  Neko.logger.level = Logger::DEBUG
+end
+log = Neko.logger
+
+log.debug("Command line arguments: #{opts}")
+
+loc = opts[:loc]
+loc ||= ARGV.shift
+
+Optimist::die :loc, "is missing" if loc.nil?
+
+api = DarkSkyAPI.new(key: opts[:key])
+api.blocks = {minutely: false, hourly: false, daily: false, alerts: false, flags: false}
+
+if opts[:time_given]
+  data = api.timemachine(loc: loc, ts: opts[:time])
+else 
+  data = api.forecast(loc: loc)
+end
+
+require 'pp'
+pp data if data
