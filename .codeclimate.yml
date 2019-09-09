@@ -1,0 +1,5 @@
+exclude_patterns:
+- "lib/darksky-ruby/optimist.rb"
+plugins:
+  rubocop:
+    enabled: true

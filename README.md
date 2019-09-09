@@ -1,6 +1,6 @@
 # darksky-ruby
 
-[![Gem Version](https://badge.fury.io/rb/kajiki.svg)](http://badge.fury.io/rb/kajiki)
+[![Gem Version](https://badge.fury.io/rb/darksky-ruby.svg)](http://badge.fury.io/rb/darksky-ruby) [![Maintainability](https://api.codeclimate.com/v1/badges/2806310071f132379085/maintainability)](https://codeclimate.com/github/kenjij/darksky-ruby/maintainability)
 
 Pure simple Ruby based [Dark Sky API](https://darksky.net/dev/) gem
 
