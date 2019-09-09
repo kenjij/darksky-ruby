@@ -2,9 +2,8 @@
 require 'darksky-ruby/optimist'
 require 'darksky-ruby'
 
-
 opts = Optimist::options do
-  banner "darksky [options] <LAT,LON>"
+  banner 'darksky [options] <LAT,LON>'
   opt :key, 'API secret key', type: :string
   opt :loc, 'Location (latitude,longtitude)', type: :string
   opt :log, 'Log file', type: :string

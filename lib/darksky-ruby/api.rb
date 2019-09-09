@@ -1,9 +1,15 @@
+# darksky-ruby - Pure simple Ruby based Dark Sky API gem
+# Copyright (c) 2019 Ken J.
+
 require 'json'
 
 class DarkSkyAPI
+  VERSION = '1.0.2'
   DARKSKY_URL = 'https://api.darksky.net/'
   DARKSKY_PATH_TEMPLATE = '/forecast/%{key}/%{loc}'
-  DARKSKY_BLOCK_NAMES = [:currently, :minutely, :hourly, :daily, :alerts, :flags]
+  DARKSKY_BLOCK_NAMES = [
+    :currently, :minutely, :hourly, :daily, :alerts, :flags
+  ]
 
   attr_accessor :key, :latitude, :longitude, :location, :time, :options
 
@@ -24,12 +30,12 @@ class DarkSkyAPI
     forecast(lat: lat, lon: lon, loc: loc, ts: ts)
   end
 
-  def blocks()
+  def blocks
     exc = options[:exclude]
-    exc.nil? ? exc = [] : exc = exc.split(',').map{ |n| n.to_sym }
+    exc = (exc.nil? ? [] : exc.split(',').map { |n| n.to_sym })
     h = {}
     DARKSKY_BLOCK_NAMES.each { |n| h[n] = !exc.include?(n) }
-    return h
+    h
   end
 
   def blocks=(h)
@@ -47,28 +53,26 @@ class DarkSkyAPI
   def request(loc, ts)
     path = DARKSKY_PATH_TEMPLATE % {key: key, loc: loc}
     path += ",#{ts}" if ts
-    options.empty? ? o = nil : o = options
+    o = (options.empty? ? nil : options)
     data = http.get(path: path, params: o)
-    return handle_response_data(data)
+    handle_response_data(data)
   end
 
   def http
-    unless @http
-      @http = Neko::HTTP.new(DARKSKY_URL)
-    end
-    return @http
+    @http ||= Neko::HTTP.new(DARKSKY_URL)
   end
 
   def format_path(path)
     path = '/' + path unless path.start_with?('/')
-    return path + '.json'
+    path + '.json'
   end
 
   def handle_response_data(data)
     if data[:code] != 200
-      Neko.logger.error("HTTP response error: #{data[:code]}\n#{data[:message]}")
+      msg = "HTTP response error: #{data[:code]}\n#{data[:message]}"
+      Neko.logger.error(msg)
       return nil
     end
-    return JSON.parse(data[:body], {symbolize_names: true})
+    JSON.parse(data[:body], symbolize_names: true)
   end
 end
