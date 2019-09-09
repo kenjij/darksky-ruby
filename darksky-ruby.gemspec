@@ -1,10 +1,9 @@
 $LOAD_PATH.unshift(File.expand_path('../lib', __FILE__))
 require 'darksky-ruby'
 
-
 Gem::Specification.new do |s|
   s.name          = 'darksky-ruby'
-  s.version       = '1.0.1'
+  s.version       = DarkSkyAPI::VERSION
   s.authors       = ['Ken J.']
   s.email         = ['kenjij@gmail.com']
   s.summary       = %q{Pure simple Ruby based Dark Sky API gem}
